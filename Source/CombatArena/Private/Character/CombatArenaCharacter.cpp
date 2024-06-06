@@ -3,10 +3,12 @@
 
 #include "Character/CombatArenaCharacter.h"
 
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/CombatArenaPlayerController.h"
 
 ACombatArenaCharacter::ACombatArenaCharacter()
 {

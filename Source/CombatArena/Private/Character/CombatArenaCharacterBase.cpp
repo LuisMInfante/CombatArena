@@ -9,6 +9,16 @@ ACombatArenaCharacterBase::ACombatArenaCharacterBase()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ACombatArenaCharacterBase::Highlight()
+{
+	
+}
+
+void ACombatArenaCharacterBase::RemoveHighlight()
+{
+	
+}
+
 
 void ACombatArenaCharacterBase::BeginPlay()
 {

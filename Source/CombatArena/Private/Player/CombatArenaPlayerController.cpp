@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "TimerManager.h"
 
 ACombatArenaPlayerController::ACombatArenaPlayerController()
 {
@@ -21,12 +22,13 @@ void ACombatArenaPlayerController::BeginPlay()
 	
 	// Assert the mapping context is valid
 	check(m_CombatArenaContext);
-
-	// Initialize Input
-	m_Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(m_Subsystem);
-	m_Subsystem->AddMappingContext(m_CombatArenaContext, 0);
 	
+	// Initialize Input for Client
+	m_Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (m_Subsystem)
+	{
+		m_Subsystem->AddMappingContext(m_CombatArenaContext, 0);
+	}
 }
 
 void ACombatArenaPlayerController::SetupInputComponent()
@@ -49,6 +51,18 @@ void ACombatArenaPlayerController::SetupInputComponent()
 									this,
 									&ACombatArenaPlayerController::Jump
 									);
+}
+
+void ACombatArenaPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	// Initialize Input for Server
+	m_Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (m_Subsystem)
+	{
+		m_Subsystem->AddMappingContext(m_CombatArenaContext, 0);
+	}
 }
 
 void ACombatArenaPlayerController::Move(const FInputActionValue& InputActionValue)

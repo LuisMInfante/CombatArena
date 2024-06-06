@@ -25,7 +25,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
+	
 private:
 	TObjectPtr<UCharacterMovementComponent> m_CharacterMovement;
 	

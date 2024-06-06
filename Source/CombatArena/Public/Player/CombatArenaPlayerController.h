@@ -24,9 +24,12 @@ class COMBATARENA_API ACombatArenaPlayerController : public APlayerController
 public:
 	ACombatArenaPlayerController();
 	
+	FORCEINLINE TObjectPtr<UInputMappingContext> GetMappingContext() { return m_CombatArenaContext; };
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
 
 private:
 	void Move(const FInputActionValue& InputActionValue);
