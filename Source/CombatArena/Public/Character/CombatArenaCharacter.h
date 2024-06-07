@@ -12,6 +12,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UCharacterMovementComponent;
+class UWidgetComponent;
 
 UCLASS()
 class COMBATARENA_API ACombatArenaCharacter : public ACombatArenaCharacterBase
@@ -21,7 +22,6 @@ class COMBATARENA_API ACombatArenaCharacter : public ACombatArenaCharacterBase
 public:
 	ACombatArenaCharacter();
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -34,5 +34,8 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	TObjectPtr<UCameraComponent> m_Camera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", DisplayName = "Overhead Widget"))
+	TObjectPtr<UWidgetComponent> m_OverheadWidget;
 	
 };

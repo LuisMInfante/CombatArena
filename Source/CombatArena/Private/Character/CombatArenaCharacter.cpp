@@ -3,12 +3,11 @@
 
 #include "Character/CombatArenaCharacter.h"
 
-#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Player/CombatArenaPlayerController.h"
+
 
 ACombatArenaCharacter::ACombatArenaCharacter()
 {
@@ -26,16 +25,14 @@ ACombatArenaCharacter::ACombatArenaCharacter()
 	m_CharacterMovement = GetCharacterMovement();
 	bUseControllerRotationYaw = false;
 	m_CharacterMovement->bOrientRotationToMovement = true;
+
+	m_OverheadWidget = CreateDefaultSubobject<UWidgetComponent>("OverheadWidget");
+	m_OverheadWidget->SetupAttachment(RootComponent);
 }
 
 void ACombatArenaCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void ACombatArenaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
 void ACombatArenaCharacter::BeginPlay()
