@@ -8,9 +8,9 @@
 
 void UOverheadWidget::SetDisplayText(const FString& Text) const
 {
-	if(m_DisplayText)
+	if(DisplayText)
 	{
-		m_DisplayText->SetText(FText::FromString(Text));
+		DisplayText->SetText(FText::FromString(Text));
 	}
 }
 

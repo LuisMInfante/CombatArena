@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Net/UnrealNetwork.h"
+#include "Weapons/WeaponBase.h"
 
 
 ACombatArenaCharacter::ACombatArenaCharacter()
@@ -35,7 +37,50 @@ void ACombatArenaCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ACombatArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(ACombatArenaCharacter, m_OverlappedWeapon, COND_OwnerOnly);
+}
+
+void ACombatArenaCharacter::SetOverlappedWeapon(const TObjectPtr<AWeaponBase>& Weapon)
+{
+	// If we have ended overlap (Holding a pointer to a previous weapon)
+	if (m_OverlappedWeapon)
+	{
+		m_OverlappedWeapon->ShowPickupWidget(false);
+	}
+
+	// Set new Overlapped Weapon
+	m_OverlappedWeapon = Weapon;
+	
+	// If we are the Player controlling the server
+	if (IsLocallyControlled())
+	{
+		if (m_OverlappedWeapon)
+		{
+			m_OverlappedWeapon->ShowPickupWidget(true);
+		}
+	}
+}
+
 void ACombatArenaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ACombatArenaCharacter::OnRep_OverlappedWeapon(AWeaponBase* LastOverlappedWeapon) const
+{
+	// Started Overlap
+	if (m_OverlappedWeapon)
+	{
+		m_OverlappedWeapon->ShowPickupWidget(true);
+	}
+
+	// Ended Overlap
+	if (LastOverlappedWeapon)
+	{
+		LastOverlappedWeapon->ShowPickupWidget(false);
+	}
 }

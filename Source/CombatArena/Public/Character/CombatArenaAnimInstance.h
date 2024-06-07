@@ -29,9 +29,9 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = true, DisplayName = "Speed"))
 	float m_Speed;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = true, DisplayName = "InAir"))
-	bool m_bIsInAir;
+	UPROPERTY(BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = true, DisplayName = "Is In Air"))
+	bool m_IsInAir;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = true, DisplayName = "Accelerating"))
-	bool m_bIsAccelerating;
+	UPROPERTY(BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = true, DisplayName = "Is Accelerating"))
+	bool m_IsAccelerating;
 };

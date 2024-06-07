@@ -28,7 +28,7 @@ public:
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	TObjectPtr<UTextBlock> m_DisplayText;
+	TObjectPtr<UTextBlock> DisplayText;
 
 protected:
 	virtual void NativeDestruct() override;

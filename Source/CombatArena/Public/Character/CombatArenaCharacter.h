@@ -13,6 +13,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UCharacterMovementComponent;
 class UWidgetComponent;
+class AWeaponBase;
 
 UCLASS()
 class COMBATARENA_API ACombatArenaCharacter : public ACombatArenaCharacterBase
@@ -22,9 +23,15 @@ class COMBATARENA_API ACombatArenaCharacter : public ACombatArenaCharacterBase
 public:
 	ACombatArenaCharacter();
 	virtual void Tick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	void SetOverlappedWeapon(const TObjectPtr<AWeaponBase>& Weapon);
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void OnRep_OverlappedWeapon(AWeaponBase* LastOverlappedWeapon) const;
 	
 private:
 	TObjectPtr<UCharacterMovementComponent> m_CharacterMovement;
@@ -37,5 +44,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", DisplayName = "Overhead Widget"))
 	TObjectPtr<UWidgetComponent> m_OverheadWidget;
-	
+
+	UPROPERTY(ReplicatedUsing = OnRep_OverlappedWeapon)
+	TObjectPtr<AWeaponBase> m_OverlappedWeapon;
 };

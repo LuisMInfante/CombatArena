@@ -33,7 +33,7 @@ void UCombatArenaAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	Velocity.Z = 0.0f;
 	m_Speed = Velocity.Size();
 
-	m_bIsInAir = m_MovementComponent->IsFalling();
-	m_bIsAccelerating = m_MovementComponent->GetCurrentAcceleration().Size() ? true : false;
+	m_IsInAir = m_MovementComponent->IsFalling();
+	m_IsAccelerating = m_MovementComponent->GetCurrentAcceleration().Size() ? true : false;
 
 }

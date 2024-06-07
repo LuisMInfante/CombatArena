@@ -14,7 +14,7 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 	{
 		if (TObjectPtr<UWorld> World = GetWorld())
 		{
-			World->ServerTravel(FString("/Game/Maps/JapanMap?listen"));
+			World->ServerTravel(FString("/Game/Maps/EgyptMap?listen"));
 		}
 	}
 }
