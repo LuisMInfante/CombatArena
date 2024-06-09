@@ -13,5 +13,10 @@ UCLASS()
 class COMBATARENA_API ACombatArenaEnemy : public ACombatArenaCharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	ACombatArenaEnemy();
 	
+protected:
+	virtual void BeginPlay() override;
 };

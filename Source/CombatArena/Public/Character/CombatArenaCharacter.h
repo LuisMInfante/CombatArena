@@ -9,10 +9,12 @@
 /*
 	* Player Controlled Character
 */
+
 class USpringArmComponent;
 class UCameraComponent;
 class UCharacterMovementComponent;
 class UWidgetComponent;
+class ACombatArenaPlayerState;
 class AWeaponBase;
 
 UCLASS()
@@ -23,17 +25,30 @@ class COMBATARENA_API ACombatArenaCharacter : public ACombatArenaCharacterBase
 public:
 	ACombatArenaCharacter();
 	virtual void Tick(float DeltaTime) override;
+
+	//~ Begin APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	//~ End APawn Interface
+	
 	void SetOverlappedWeapon(const TObjectPtr<AWeaponBase>& Weapon);
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	void InitAbilityActorInfo();
+	
 	UFUNCTION()
 	void OnRep_OverlappedWeapon(AWeaponBase* LastOverlappedWeapon) const;
+
 	
 private:
+	UPROPERTY(VisibleAnywhere, Category = "Player State")
+	TObjectPtr<ACombatArenaPlayerState> m_PlayerState;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	TObjectPtr<UCharacterMovementComponent> m_CharacterMovement;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Camera")

@@ -1,7 +1,7 @@
 // Copyright Luis Infante
 
 
-#include "HUD/OverheadWidget.h"
+#include "UI/HUD/OverheadWidget.h"
 
 #include "Components/TextBlock.h"
 #include "GameFramework/PlayerState.h"

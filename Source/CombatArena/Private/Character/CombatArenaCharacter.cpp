@@ -8,6 +8,9 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/CombatArenaPlayerState.h"
+#include "AbilitySystem/CombatAbilitySystemComponent.h"
+#include "AbilitySystem/CombatArenaAttributeSet.h"
 #include "Weapons/WeaponBase.h"
 
 
@@ -35,6 +38,14 @@ ACombatArenaCharacter::ACombatArenaCharacter()
 void ACombatArenaCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACombatArenaCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	// If we are on the Server
+	InitAbilityActorInfo();
 }
 
 void ACombatArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -68,6 +79,30 @@ void ACombatArenaCharacter::SetOverlappedWeapon(const TObjectPtr<AWeaponBase>& W
 void ACombatArenaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ACombatArenaCharacter::InitAbilityActorInfo()
+{
+	m_PlayerState = GetPlayerState<ACombatArenaPlayerState>();
+	if (m_PlayerState)
+	{
+		// Set ASC
+		AbilitySystemComponent = Cast<UCombatAbilitySystemComponent>(m_PlayerState->GetAbilitySystemComponent());
+
+		// Ability System exists on the Player State, Player Controlled Character is the Avatar
+		m_PlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(m_PlayerState, this);
+		
+		// Set AS 
+		AttributeSet = Cast<UCombatArenaAttributeSet>(m_PlayerState->GetAttributeSet());
+	}
+}
+
+void ACombatArenaCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// If we are on the Client
+	InitAbilityActorInfo();
 }
 
 void ACombatArenaCharacter::OnRep_OverlappedWeapon(AWeaponBase* LastOverlappedWeapon) const

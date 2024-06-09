@@ -9,8 +9,9 @@ public class CombatArena : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", 
-			"InputCore", "EnhancedInput", "Niagara", "Slate", "MultiplayerSessions", "OnlineSubsystem", "OnlineSubsystemSteam", "UMG" });
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+			"InputCore", "EnhancedInput", "Niagara", "Slate", "MultiplayerSessions", "OnlineSubsystem",
+			"OnlineSubsystemSteam", "UMG", "GameplayAbilities" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayTasks", "GameplayTags" });
 
 		// Uncomment if you are using Slate UI
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

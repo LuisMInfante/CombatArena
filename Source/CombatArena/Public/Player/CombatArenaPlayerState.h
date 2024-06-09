@@ -3,30 +3,28 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Interface/EnemyInterface.h"
 #include "AbilitySystemInterface.h"
-#include "CombatArenaCharacterBase.generated.h"
+#include "GameFramework/PlayerState.h"
+#include "CombatArenaPlayerState.generated.h"
+
 /*
-	* Traits Shared Between Player and AI
+	* Player State for Player Controlled Character
 */
+
 class UAbilitySystemComponent;
 class UAttributeSet;
 
-UCLASS(Abstract)
-class COMBATARENA_API ACombatArenaCharacterBase : public ACharacter, public IAbilitySystemInterface
+UCLASS()
+class COMBATARENA_API ACombatArenaPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-	ACombatArenaCharacterBase();
+	ACombatArenaPlayerState();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
-protected:
-	virtual void BeginPlay() override;
-
 protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
