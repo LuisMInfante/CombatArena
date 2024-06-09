@@ -52,6 +52,7 @@ void ACombatArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	// Only Replicating when Weapon is Overlapped
 	DOREPLIFETIME_CONDITION(ACombatArenaCharacter, m_OverlappedWeapon, COND_OwnerOnly);
 }
 

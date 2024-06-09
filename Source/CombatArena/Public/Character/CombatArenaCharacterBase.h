@@ -10,6 +10,7 @@
 /*
 	* Traits Shared Between Player and AI
 */
+
 class UAbilitySystemComponent;
 class UAttributeSet;
 
