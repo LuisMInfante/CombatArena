@@ -7,9 +7,9 @@
 
 UCombatArenaAttributeSet::UCombatArenaAttributeSet()
 {
-	InitHealth(100.0f);
+	InitHealth(50.0f);
 	InitMaxHealth(100.0f);
-	InitShields(100.0f);
+	InitShields(0.0f);
 	InitMaxShields(100.0f);
 }
 

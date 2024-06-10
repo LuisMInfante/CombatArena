@@ -11,8 +11,9 @@
 #include "Player/CombatArenaPlayerState.h"
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 #include "AbilitySystem/CombatArenaAttributeSet.h"
+#include "Player/CombatArenaPlayerController.h"
+#include "UI/HUD/CombatArenaHUD.h"
 #include "Weapons/WeaponBase.h"
-
 
 ACombatArenaCharacter::ACombatArenaCharacter()
 {
@@ -92,9 +93,20 @@ void ACombatArenaCharacter::InitAbilityActorInfo()
 
 		// Ability System exists on the Player State, Player Controlled Character is the Avatar
 		m_PlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(m_PlayerState, this);
-		
+			
 		// Set AS 
 		AttributeSet = Cast<UCombatArenaAttributeSet>(m_PlayerState->GetAttributeSet());
+	}
+	
+	// Set the Widget Controller on the HUD
+	m_PlayerController = Cast<ACombatArenaPlayerController>(GetController());
+	if (m_PlayerController)
+	{
+		m_PlayerHUD = Cast<ACombatArenaHUD>(m_PlayerController->GetHUD());
+		if (m_PlayerHUD)
+		{
+			m_PlayerHUD->InitOverlay(m_PlayerController, m_PlayerState, AbilitySystemComponent, AttributeSet);
+		}
 	}
 }
 

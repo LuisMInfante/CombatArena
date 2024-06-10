@@ -10,6 +10,8 @@
 	* Player Controlled Character
 */
 
+class ACombatArenaHUD;
+class ACombatArenaPlayerController;
 class USpringArmComponent;
 class UCameraComponent;
 class UCharacterMovementComponent;
@@ -43,10 +45,15 @@ private:
 	UFUNCTION()
 	void OnRep_OverlappedWeapon(AWeaponBase* LastOverlappedWeapon) const;
 
-	
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	TObjectPtr<ACombatArenaPlayerState> m_PlayerState;
+
+	UPROPERTY(VisibleAnywhere, Category = "Player Controller")
+	TObjectPtr<ACombatArenaPlayerController> m_PlayerController;
+
+	UPROPERTY(VisibleAnywhere, Category = "Player HUD")
+	TObjectPtr<ACombatArenaHUD> m_PlayerHUD;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	TObjectPtr<UCharacterMovementComponent> m_CharacterMovement;
