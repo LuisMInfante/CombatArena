@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "CombatArenaWidgetController.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
 /*
 	* Base Class for Widget Controller
 	* Handles All Data Sent to Widgets
@@ -21,4 +23,10 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
 	TObjectPtr<APlayerState> PlayerState;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<UAttributeSet> AttributeSet;
 };
