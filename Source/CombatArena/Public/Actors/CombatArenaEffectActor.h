@@ -38,19 +38,23 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectsToTarget(AActor* TargetActor, const TArray<TSubclassOf<UGameplayEffect>>& GameplayEffects);
 	
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
 	
 	UFUNCTION(BlueprintCallable)
 	void OnEndOverlap(AActor* TargetActor);
+	
 protected:
 	/*	Instant Effects	*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Instant")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Effects | Instant")
-	TArray<FActiveGameplayEffectHandle> InstantEffects;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Instant")
+	TArray<TSubclassOf<UGameplayEffect>> InstantEffects;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Instant")
 	EEffectApplicationPolicy InstantEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
@@ -58,9 +62,9 @@ protected:
 	/*	Duration Effects  */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Duration")
 	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Effects | Duration")
-	TArray<FActiveGameplayEffectHandle> DurationEffects;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Duration")
+	TArray<TSubclassOf<UGameplayEffect>> DurationEffects;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Duration")
 	EEffectApplicationPolicy DurationEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
@@ -69,8 +73,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Infinite")
 	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Effects | Infinite")
-	TArray<FActiveGameplayEffectHandle> InfiniteEffects;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Infinite")
+	TArray<TSubclassOf<UGameplayEffect>> InfiniteEffects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Infinite")
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
