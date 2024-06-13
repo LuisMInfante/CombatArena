@@ -16,20 +16,88 @@ ACombatArenaEffectActor::ACombatArenaEffectActor()
 void ACombatArenaEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void ACombatArenaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
+	// Get the Ability System Component of the Target Actor
 	TObjectPtr<UAbilitySystemComponent> TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if(!TargetASC) return;
 	check(GameplayEffectClass);
-	
+
+	// Create a GameplayEffectContext based on Target Actor
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
-	
+
+	// Create a GameplayEffectSpec based on Target Actor
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(
 		GameplayEffectClass, 1.0f, EffectContextHandle);
-	
-	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data);
+
+	// Apply Gameplay Effect to Target Actor
+	const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data);
+
+	// If duration is Infinite 
+	if (EffectSpecHandle.Data->Def->DurationPolicy == EGameplayEffectDurationType::Infinite)
+	{
+		// Must be removed
+		if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+		{
+			// Add Effect to our map
+			ActiveEffectHandles.Add(TargetASC, ActiveEffectHandle);
+		}
+	}
+}
+
+void ACombatArenaEffectActor::OnOverlap(AActor* TargetActor)
+{
+	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+	}
+
+	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+	}
+
+	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+	}
+}
+
+void ACombatArenaEffectActor::OnEndOverlap(AActor* TargetActor)
+{
+	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+	}
+
+	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+	}
+
+	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+	{
+		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+	}
+
+	if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+	{
+		// Get the Ability System Component of our Target Actor
+		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+		if (!IsValid(TargetASC)) return;
+
+		// Find and store all Gameplay Effects associated with the Effect Actor
+		TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+		ActiveEffectHandles.MultiFind(TargetASC, HandlesToRemove);
+
+		// Remove the Effects and Remove ASC from Map
+		for (const FActiveGameplayEffectHandle& Handle : HandlesToRemove)
+		{
+			TargetASC->RemoveActiveGameplayEffect(Handle, 1);
+			ActiveEffectHandles.RemoveSingle(TargetASC, Handle);
+		}
+	}
 }

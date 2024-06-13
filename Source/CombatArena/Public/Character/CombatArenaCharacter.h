@@ -57,12 +57,6 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	TObjectPtr<UCharacterMovementComponent> m_CharacterMovement;
-	
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
-	TObjectPtr<USpringArmComponent> m_CameraBoom;
-	
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
-	TObjectPtr<UCameraComponent> m_Camera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", DisplayName = "Overhead Widget"))
 	TObjectPtr<UWidgetComponent> m_OverheadWidget;
