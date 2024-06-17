@@ -17,6 +17,42 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+USTRUCT()
+struct FEffectProperties
+{
+	GENERATED_BODY()
+
+	FEffectProperties() {}
+
+	/* Source Effect Properties	*/
+	FGameplayEffectContextHandle EffectContextHandle;
+	
+	UPROPERTY()
+	UAbilitySystemComponent* SourceAbilitySystemComponent = nullptr;
+
+	UPROPERTY()
+	AActor* SourceAvatarActor = nullptr;
+
+	UPROPERTY()
+	AController* SourceController = nullptr;
+
+	UPROPERTY()
+	ACharacter* SourceCharacter = nullptr;
+	
+	/* Target Effect Properties	*/
+	UPROPERTY()
+	UAbilitySystemComponent* TargetAbilitySystemComponent = nullptr;
+
+	UPROPERTY()
+	AActor* TargetAvatarActor = nullptr;
+
+	UPROPERTY()
+	AController* TargetController = nullptr;
+
+	UPROPERTY()
+	ACharacter* TargetCharacter = nullptr;
+};
+
 UCLASS()
 class COMBATARENA_API UCombatArenaAttributeSet : public UAttributeSet
 {
@@ -28,6 +64,11 @@ public:
 	//~ Begin APawn Interface
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	//~ End APawn Interface
+	
+	//~ Begin UAttributeSet Interface
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	//~ End UAttributeSet Interface
 	
 	/*	Health Attributes	*/
 	UFUNCTION()
@@ -61,4 +102,8 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxShields, Category = "Attributes | Shields")
 	FGameplayAttributeData MaxShields;
+
+private:
+
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties);
 };

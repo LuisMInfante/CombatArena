@@ -31,7 +31,7 @@ void ACombatArenaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclass
 
 	// Create a GameplayEffectSpec based on Target Actor
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(
-		GameplayEffectClass, 1.0f, EffectContextHandle);
+		GameplayEffectClass, ActorLevel, EffectContextHandle);
 
 	// Apply Gameplay Effect to Target Actor
 	const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data);

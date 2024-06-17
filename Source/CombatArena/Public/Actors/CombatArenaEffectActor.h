@@ -87,4 +87,7 @@ protected:
 	bool bDestroyOnEffectRemoval = false;
 
 	TMultiMap<UAbilitySystemComponent*, FActiveGameplayEffectHandle> ActiveEffectHandles;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects | Options")
+	float ActorLevel = 1.0f;
 };
